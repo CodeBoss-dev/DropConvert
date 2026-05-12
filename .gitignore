@@ -1,0 +1,37 @@
+# Build artifacts
+.build/
+*.xcodeproj/
+DerivedData/
+
+# Bundled app (built locally, distributed via Releases)
+ConverterApp.app/
+
+# Stripped LibreOffice — too big for git, rebuilt with Scripts/strip-libreoffice.sh
+LibreOffice/
+LibreOffice */
+
+# Release artifacts — distributed via GitHub Releases, not committed
+*.zip
+*.tar.zst
+*.dmg
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Claude Code internal state
+.claude/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+
+# Swift package manager
+Package.resolved
+
+# Numbered duplicates created by Finder
+* 2
+* 2.*
+* copy
+* copy.*

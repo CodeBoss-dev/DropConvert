@@ -56,7 +56,7 @@ enum LibreOfficeInstaller {
     /// HTTPS URL of the engine tarball. Replace with the production CDN URL (Cloudflare R2
     /// or GitHub Releases) once hosting is set up. `file://` URLs are accepted for local
     /// testing — see `make engine-tarball`.
-    static let downloadURL = URL(string: "file:///Users/waaridhborpujari/Documents/ConverterApp/LibreOffice-26.2.3-aarch64.tar.zst")!
+    static let downloadURL = URL(string: "https://github.com/CodeBoss-dev/ConverterApp/releases/download/v1.0.0/LibreOffice-26.2.3-aarch64.tar.zst")!
 
     /// SHA-256 of the tarball (hex, lowercase). Compute with:
     ///   `shasum -a 256 LibreOffice-26.2.3-aarch64.tar.zst`

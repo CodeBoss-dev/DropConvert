@@ -7,7 +7,7 @@ RESOURCES_DIR  = $(CONTENTS)/Resources
 LO_SRC         = LibreOffice
 ENGINE_VERSION = 26.2.3
 ENGINE_ARCH    = aarch64
-ENGINE_TARBALL = LibreOffice-$(ENGINE_VERSION)-$(ENGINE_ARCH).tar.zst
+ENGINE_TARBALL = LibreOffice-$(ENGINE_VERSION)-$(ENGINE_ARCH).tar.gz
 
 .PHONY: build bundle run clean engine-tarball
 
@@ -51,11 +51,13 @@ engine-tarball:
 	@if [ ! -d "$(LO_SRC)" ]; then \
 		echo "✗ $(LO_SRC)/ not found. Run Scripts/strip-libreoffice.sh first."; exit 1; \
 	fi
-	@echo "→ Packaging $(ENGINE_TARBALL) (zstd via tar)"
-	@tar --options 'zstd:compression-level=19' \
-	     --zstd \
-	     -cf $(ENGINE_TARBALL) \
-	     -C $(LO_SRC) .
+	@# gzip rather than zstd: macOS's bsdtar handles gzip natively, but for zstd
+	@# it shells out to a separate `zstd` binary that's NOT in a default app
+	@# process's PATH (it lives at /opt/homebrew/bin/zstd or similar). Users
+	@# without Homebrew get "Can't initialize filter; unable to run program zstd".
+	@# gzip costs ~50MB more download size vs. zstd-19 but works for everyone.
+	@echo "→ Packaging $(ENGINE_TARBALL) (gzip via tar)"
+	@tar -czf $(ENGINE_TARBALL) -C $(LO_SRC) .
 	@echo "→ SHA-256:"
 	@shasum -a 256 $(ENGINE_TARBALL)
 	@echo "→ Size:"

@@ -56,11 +56,11 @@ enum LibreOfficeInstaller {
     /// HTTPS URL of the engine tarball. Replace with the production CDN URL (Cloudflare R2
     /// or GitHub Releases) once hosting is set up. `file://` URLs are accepted for local
     /// testing — see `make engine-tarball`.
-    static let downloadURL = URL(string: "https://github.com/CodeBoss-dev/ConverterApp/releases/download/v1.0.0/LibreOffice-26.2.3-aarch64.tar.zst")!
+    static let downloadURL = URL(string: "https://github.com/CodeBoss-dev/ConverterApp/releases/download/v1.1.3/LibreOffice-26.2.3-aarch64.tar.gz")!
 
     /// SHA-256 of the tarball (hex, lowercase). Compute with:
-    ///   `shasum -a 256 LibreOffice-26.2.3-aarch64.tar.zst`
-    static let expectedSHA256 = "90d9353994693ce3f90093c541278c61bcee2fcd96c89d8d739c3b7c8e4b45b6"
+    ///   `shasum -a 256 LibreOffice-26.2.3-aarch64.tar.gz`
+    static let expectedSHA256 = "20232d7763c596a474c0df47fd7f23b2610ea00b98919a01932029e148c165dd"
 
     // MARK: - Paths
 
@@ -111,7 +111,7 @@ enum LibreOfficeInstaller {
         let fm = FileManager.default
         try fm.createDirectory(at: applicationSupportDir, withIntermediateDirectories: true)
 
-        let tarball = applicationSupportDir.appendingPathComponent("engine-download.tar.zst")
+        let tarball = applicationSupportDir.appendingPathComponent("engine-download.tar.gz")
         try? fm.removeItem(at: tarball)
 
         try await downloadTarball(to: tarball, progressHandler: progressHandler)
@@ -211,14 +211,14 @@ enum LibreOfficeInstaller {
         try? fm.removeItem(at: oldDir)
         try fm.createDirectory(at: stagingDir, withIntermediateDirectories: true)
 
-        // macOS 13+ ships tar with built-in zstd support. We pass `--zstd` explicitly
-        // anyway — relying on tar's auto-detection has been flaky in past macOS versions.
-        // stdout is redirected to /dev/null (we don't care about filename listing and
-        // don't want pipe buffers filling up); stderr goes to a pipe AND a file so we
-        // can both surface the error in the UI and persist it for log inspection.
+        // We use gzip-compressed tarballs (.tar.gz) rather than zstd because macOS's
+        // bsdtar shells out to a separate `zstd` binary for zstd decompression —
+        // and that binary is NOT in the PATH a GUI app inherits unless the user has
+        // installed it via Homebrew. gzip is handled natively by libarchive, works
+        // for everyone, and costs only ~50MB more download size.
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/tar")
-        process.arguments = ["--zstd", "-xf", tarball.path, "-C", stagingDir.path]
+        process.arguments = ["-xzf", tarball.path, "-C", stagingDir.path]
         let stderrPipe = Pipe()
         process.standardError = stderrPipe
         process.standardOutput = FileHandle(forWritingAtPath: "/dev/null") ?? Pipe().fileHandleForWriting

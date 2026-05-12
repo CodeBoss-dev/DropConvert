@@ -23,6 +23,9 @@ final class StatusBarController {
     private var engineSetupWindow: EngineSetupWindow?
     private var pendingDrops: [(urls: [URL], modifiers: NSEvent.ModifierFlags)] = []
 
+    // First-launch onboarding
+    private let welcomeController = WelcomeWindowController()
+
     // Tracks how many conversions are in-flight to drive icon animation
     private var activeConversions = 0 {
         didSet { updateIcon() }
@@ -35,6 +38,16 @@ final class StatusBarController {
         configure()
         registerNotificationCategory()
         installProximityWindow()
+        showWelcomeOnFirstLaunch()
+    }
+
+    private func showWelcomeOnFirstLaunch() {
+        guard !WelcomeWindowController.hasSeenWelcome else { return }
+        // Defer one runloop tick so the menu bar finishes setup before a
+        // modal-feeling window pops over it.
+        DispatchQueue.main.async { [weak self] in
+            self?.welcomeController.show()
+        }
     }
 
     private func configure() {
@@ -159,6 +172,14 @@ final class StatusBarController {
         convertItem.isEnabled = activeConversions == 0
         menu.addItem(convertItem)
 
+        let howToItem = NSMenuItem(
+            title: "How to Use…",
+            action: #selector(showWelcomeWindow),
+            keyEquivalent: ""
+        )
+        howToItem.target = self
+        menu.addItem(howToItem)
+
         menu.addItem(.separator())
 
         let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -183,6 +204,10 @@ final class StatusBarController {
 
     @objc private func convertFinderSelectionFromMenu() {
         handleHotkeyTriggered()
+    }
+
+    @objc private func showWelcomeWindow() {
+        welcomeController.show()
     }
 
     @objc private func openAcknowledgments() {

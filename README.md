@@ -1,82 +1,26 @@
 # ConverterApp
 
-A native macOS menu bar file converter that runs entirely on-device. Drag a file onto the menu bar icon — get a converted file next to the original. No uploads, no waiting for a server, no save dialog by default.
+**Convert files on your Mac. Locally. No documents ever leave your machine.**
+
+A native macOS menu bar app for converting between PDF, DOCX, PPTX, XLSX, ODF formats, and common images. Drag a file onto the menu bar icon — the converted file appears next to the original. No uploads, no cloud, no third-party servers.
+
+You can verify this yourself: pull the Wi-Fi cable after first launch. Every conversion still works.
 
 ## Download
 
-**👉 [Download the latest release](https://github.com/CodeBoss-dev/ConverterApp/releases/latest)**
+**👉 [Download the latest release](https://github.com/CodeBoss-dev/ConverterApp/releases/latest)** — macOS 13+, Apple Silicon.
 
-Unzip, drag `ConverterApp.app` to your Applications folder, and you're ready to go.
+## Running the app for the first time
 
-**Requirements:** macOS 13 (Ventura) or later, Apple Silicon (M1/M2/M3/M4).
+Because this app isn't notarized by Apple (notarization requires a $99/yr Apple Developer account — overkill for a free, open-source tool), macOS will block it on first launch with a *"Apple could not verify"* dialog. **This is not because the app is malware.** It's the standard treatment for any app from outside the App Store that hasn't paid Apple's notarization tax. To run it:
 
-## What it converts
+1. Click **Done** on the warning dialog.
+2. Open **System Settings → Privacy & Security**.
+3. Scroll down to the message *"ConverterApp was blocked because it is not from an identified developer."*
+4. Click **Open Anyway** → enter your password → confirm.
 
-| From | To |
-|---|---|
-| **PDF** | DOCX (text-based or scanned via Apple Vision OCR) |
-| **DOCX** | PDF |
-| **PPTX** | PDF, ODP |
-| **XLSX** | PDF, ODS, CSV |
-| **ODT / RTF / TXT** | PDF, DOCX, and each other |
-| **ODS / CSV** | PDF, XLSX |
-| **ODP** | PDF, PPTX |
-| **Images** (PNG, JPG, HEIC, TIFF, BMP, WebP-read-only) | PNG, JPG, HEIC, TIFF, BMP |
-
-## How to use
-
-- **Drag a file onto the menu bar icon.** The converted file appears next to the original.
-- **Hold ⌥ Option while dropping** to open a save dialog and choose where the output goes.
-- **Press ⌘⇧C in Finder** to convert your current Finder selection without leaving Finder.
-- **Click the menu bar icon → "How to Use…"** to re-open the welcome guide any time.
-
-## First launch
-
-1. Right-click `ConverterApp.app` → **Open** → confirm the security dialog.
-   (macOS shows this for apps not from the App Store. You only need to do it once.)
-2. The first time you drop a file, the app downloads its conversion engine (~140 MB, one time only). Subsequent conversions are instant.
-
-## Privacy
-
-Conversion happens **entirely on your Mac.** Files never leave your machine. The app:
-- Has no telemetry, analytics, or tracking.
-- Connects to the internet **only once**, on first launch, to download the conversion engine from this GitHub repository.
-- Stores no data outside `~/Library/Application Support/ConverterApp/` (the engine cache).
-
-You can verify by disconnecting from the internet — once the engine is installed, all conversions continue to work offline.
-
-## How it works
-
-The app is intentionally tiny (~200 KB). The heavy lifting comes from a stripped, headless build of [LibreOffice](https://www.libreoffice.org/) that's downloaded on first use into `~/Library/Application Support/ConverterApp/`. The app itself is Swift / AppKit / SwiftUI; OCR uses Apple Vision; image conversions use ImageIO.
-
-This split keeps the website download under a megabyte and lets you update the app frequently without re-downloading hundreds of megabytes each time.
-
-## Building from source
-
-```bash
-git clone https://github.com/CodeBoss-dev/ConverterApp.git
-cd ConverterApp
-bash Scripts/strip-libreoffice.sh    # downloads + strips LibreOffice (~5 min)
-make bundle                          # builds the .app
-open ConverterApp.app
-```
-
-Requires Swift 5.9+ (Xcode 15 or command-line tools).
+Done once, never asked again. The full source code is in this repo if you want to verify there's nothing shady inside.
 
 ## License
 
-ConverterApp itself is [released here under the MIT License](https://opensource.org/licenses/MIT).
-
-The bundled (downloaded-on-first-launch) LibreOffice components are licensed under the [Mozilla Public License 2.0](https://www.libreoffice.org/about-us/licenses/) — see [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) for full attribution.
-
-## Troubleshooting
-
-**"App can't be opened because Apple cannot check it for malicious software."** Right-click the app → **Open** → click **Open** in the dialog. Only needed the first time.
-
-**Engine download fails.** Check your internet connection, then quit and re-launch the app. The download resumes from where it stopped.
-
-**A specific file fails to convert.** [Open an issue](https://github.com/CodeBoss-dev/ConverterApp/issues) with the file type, source app (Word, Pages, Google Docs, etc.), and any error message you saw.
-
----
-
-Built by [CodeBoss-dev](https://github.com/CodeBoss-dev).
+MIT for ConverterApp itself. The bundled LibreOffice engine (downloaded on first launch) is licensed under the [Mozilla Public License 2.0](https://www.libreoffice.org/about-us/licenses/) — see [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md).

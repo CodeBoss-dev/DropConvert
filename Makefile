@@ -24,6 +24,14 @@ bundle: build
 	@cp $(BUILD_DIR)/$(APP_NAME) $(MACOS_DIR)/$(APP_NAME)
 	@cp Sources/Resources/Info.plist $(CONTENTS)/Info.plist
 	@cp ACKNOWLEDGMENTS.md $(RESOURCES_DIR)/ACKNOWLEDGMENTS.md
+	@# Ad-hoc sign the whole bundle. Without this, an unsigned bundle that has
+	@# the quarantine xattr (any download from the web does) triggers macOS's
+	@# "damaged and can't be opened" dialog with no recovery path. Ad-hoc
+	@# signing isn't trusted by Gatekeeper (users still see the unsigned-app
+	@# warning the first time), but it prevents the "damaged" failure mode.
+	@# For a fully-trusted experience, a $99/yr Apple Developer ID and
+	@# notarization are required — out of scope today.
+	@codesign --force --deep --sign - $(APP_BUNDLE)
 	@echo "✓ $(APP_BUNDLE) ready (engine downloads on first run)"
 
 run: bundle

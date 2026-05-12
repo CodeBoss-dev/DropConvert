@@ -211,23 +211,35 @@ enum LibreOfficeInstaller {
         try? fm.removeItem(at: oldDir)
         try fm.createDirectory(at: stagingDir, withIntermediateDirectories: true)
 
-        // macOS 13+ ships tar with built-in zstd support. `--strip-components=1` lets us
-        // tolerate tarballs that wrap everything in a top-level directory.
+        // macOS 13+ ships tar with built-in zstd support. We pass `--zstd` explicitly
+        // anyway — relying on tar's auto-detection has been flaky in past macOS versions.
+        // stdout is redirected to /dev/null (we don't care about filename listing and
+        // don't want pipe buffers filling up); stderr goes to a pipe AND a file so we
+        // can both surface the error in the UI and persist it for log inspection.
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/tar")
-        process.arguments = ["-xf", tarball.path, "-C", stagingDir.path]
-        let stderr = Pipe()
-        process.standardError = stderr
-        process.standardOutput = Pipe()
+        process.arguments = ["--zstd", "-xf", tarball.path, "-C", stagingDir.path]
+        let stderrPipe = Pipe()
+        process.standardError = stderrPipe
+        process.standardOutput = FileHandle(forWritingAtPath: "/dev/null") ?? Pipe().fileHandleForWriting
+
+        // Drain stderr asynchronously so a chatty tar can't fill the buffer and deadlock.
+        var stderrData = Data()
+        stderrPipe.fileHandleForReading.readabilityHandler = { handle in
+            let chunk = handle.availableData
+            if !chunk.isEmpty { stderrData.append(chunk) }
+        }
 
         try process.run()
         process.waitUntilExit()
+        stderrPipe.fileHandleForReading.readabilityHandler = nil
+
+        let stderrText = String(decoding: stderrData, as: UTF8.self)
+        log.info("tar exit=\(process.terminationStatus, privacy: .public) stderr=\(stderrText, privacy: .public)")
 
         if process.terminationStatus != 0 {
-            let data = stderr.fileHandleForReading.readDataToEndOfFile()
-            let text = String(decoding: data, as: UTF8.self)
             try? fm.removeItem(at: stagingDir)
-            throw LibreOfficeInstallError.extractionFailed(exitCode: process.terminationStatus, stderr: text)
+            throw LibreOfficeInstallError.extractionFailed(exitCode: process.terminationStatus, stderr: stderrText)
         }
 
         // The tarball may contain either `LibreOffice/MacOS/soffice` directly or just

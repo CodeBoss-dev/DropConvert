@@ -24,6 +24,12 @@ bundle: build
 	@cp $(BUILD_DIR)/$(APP_NAME) $(MACOS_DIR)/$(APP_NAME)
 	@cp Sources/Resources/Info.plist $(CONTENTS)/Info.plist
 	@cp ACKNOWLEDGMENTS.md $(RESOURCES_DIR)/ACKNOWLEDGMENTS.md
+	@# Strip extended attributes (com.apple.FinderInfo, com.apple.provenance, etc.)
+	@# before signing. macOS's APFS automatically tags files copied across volumes
+	@# or downloaded with various xattrs; codesign refuses to sign bundles with
+	@# resource forks / FinderInfo and exits with "resource fork, Finder
+	@# information, or similar detritus not allowed".
+	@xattr -cr $(APP_BUNDLE)
 	@# Ad-hoc sign the whole bundle. Without this, an unsigned bundle that has
 	@# the quarantine xattr (any download from the web does) triggers macOS's
 	@# "damaged and can't be opened" dialog with no recovery path. Ad-hoc

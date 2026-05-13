@@ -1,4 +1,4 @@
-APP_NAME       = ConverterApp
+APP_NAME       = DropConvert
 BUILD_DIR      = .build/release
 APP_BUNDLE     = $(APP_NAME).app
 CONTENTS       = $(APP_BUNDLE)/Contents
@@ -15,7 +15,7 @@ build:
 	swift build -c release
 
 # v2: app bundle no longer carries LibreOffice. The engine is downloaded into
-# ~/Library/Application Support/ConverterApp/LibreOffice/ on first conversion
+# ~/Library/Application Support/DropConvert/LibreOffice/ on first conversion
 # via LibreOfficeInstaller. This keeps the website download ~50MB.
 bundle: build
 	@echo "→ Assembling $(APP_BUNDLE)"
@@ -23,6 +23,8 @@ bundle: build
 	@mkdir -p $(MACOS_DIR) $(RESOURCES_DIR)
 	@cp $(BUILD_DIR)/$(APP_NAME) $(MACOS_DIR)/$(APP_NAME)
 	@cp Sources/Resources/Info.plist $(CONTENTS)/Info.plist
+	@xattr -cr Sources/Resources/AppIcon.icns
+	@cp Sources/Resources/AppIcon.icns $(RESOURCES_DIR)/AppIcon.icns
 	@cp ACKNOWLEDGMENTS.md $(RESOURCES_DIR)/ACKNOWLEDGMENTS.md
 	@# Strip extended attributes (com.apple.FinderInfo, com.apple.provenance, etc.)
 	@# before signing. macOS's APFS automatically tags files copied across volumes

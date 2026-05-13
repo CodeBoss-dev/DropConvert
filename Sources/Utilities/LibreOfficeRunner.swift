@@ -1,7 +1,7 @@
 import Foundation
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "LibreOfficeRunner")
+private let log = Logger(subsystem: "com.dropconvert", category: "LibreOfficeRunner")
 
 enum LibreOfficeError: Error, LocalizedError {
     case sofficeNotFound(URL)
@@ -78,7 +78,7 @@ enum LibreOfficeRunner {
         // LibreOffice writes a lock file and user profile to $HOME by default.
         // Point it at a temp location so it never touches the user's LO install.
         let userInstallDir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("ConverterApp-LO-\(ProcessInfo.processInfo.processIdentifier)")
+            .appendingPathComponent("DropConvert-LO-\(ProcessInfo.processInfo.processIdentifier)")
         try? FileManager.default.createDirectory(at: userInstallDir, withIntermediateDirectories: true)
 
         var env = ProcessInfo.processInfo.environment

@@ -5,7 +5,7 @@ enum WordToPDFConverter {
     /// - Returns: URL of the produced PDF.
     static func convert(input: URL, outputURL: URL) async throws -> URL {
         let tmpDir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("ConverterApp-\(UUID().uuidString)")
+            .appendingPathComponent("DropConvert-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: tmpDir, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: tmpDir) }
 

@@ -1,7 +1,7 @@
 import AppKit
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "FinderSelectionReader")
+private let log = Logger(subsystem: "com.dropconvert", category: "FinderSelectionReader")
 
 enum FinderSelectionReader {
     /// Returns the URLs of all files currently selected in Finder.

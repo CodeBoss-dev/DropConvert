@@ -1,7 +1,7 @@
 import AppKit
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "EngineSetupWindow")
+private let log = Logger(subsystem: "com.dropconvert", category: "EngineSetupWindow")
 
 /// Modal-style window shown on first launch (or after engine removal) while the
 /// LibreOffice engine is being downloaded and installed. The user sees a progress
@@ -56,7 +56,7 @@ final class EngineSetupWindow: NSObject {
         title.translatesAutoresizingMaskIntoConstraints = false
 
         let subtitle = NSTextField(wrappingLabelWithString:
-            "ConverterApp needs to download its document engine (LibreOffice, ~200 MB) before it can convert Word, PowerPoint, or Excel files. This only happens once.")
+            "DropConvert needs to download its document engine (LibreOffice, ~200 MB) before it can convert Word, PowerPoint, or Excel files. This only happens once.")
         subtitle.font = .systemFont(ofSize: 12)
         subtitle.textColor = .secondaryLabelColor
         subtitle.translatesAutoresizingMaskIntoConstraints = false

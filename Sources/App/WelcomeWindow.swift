@@ -38,7 +38,7 @@ final class WelcomeWindowController {
             backing: .buffered,
             defer: false
         )
-        window.title = "Welcome to ConverterApp"
+        window.title = "Welcome to DropConvert"
         window.titlebarAppearsTransparent = true
         window.titleVisibility = .hidden
         window.contentViewController = hosting
@@ -72,7 +72,7 @@ private struct WelcomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Welcome to ConverterApp")
+                        Text("Welcome to DropConvert")
                             .font(.system(size: 22, weight: .semibold))
                         Text("Convert files locally on your Mac. No uploads, no waiting.")
                             .font(.system(size: 13))
@@ -88,7 +88,7 @@ private struct WelcomeView: View {
                     FeatureCard(
                         symbol: "command",
                         title: "Or press ⌘⇧C in Finder",
-                        text: "Select one or more files in Finder and press Command-Shift-C. ConverterApp converts your selection without leaving Finder."
+                        text: "Select one or more files in Finder and press Command-Shift-C. DropConvert converts your selection without leaving Finder."
                     )
 
                     FeatureCard(

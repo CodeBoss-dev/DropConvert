@@ -1,7 +1,7 @@
 import AppKit
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "SavePathResolver")
+private let log = Logger(subsystem: "com.dropconvert", category: "SavePathResolver")
 
 enum SavePathResolver {
     /// Resolves the output URL for a conversion.

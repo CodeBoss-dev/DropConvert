@@ -4,7 +4,7 @@ import ImageIO
 import UniformTypeIdentifiers
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "ImageConverter")
+private let log = Logger(subsystem: "com.dropconvert", category: "ImageConverter")
 
 enum ImageConverterError: LocalizedError {
     case unreadableSource

@@ -2,7 +2,7 @@ import AppKit
 import UserNotifications
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "AppDelegate")
+private let log = Logger(subsystem: "com.dropconvert", category: "AppDelegate")
 
 final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     private var statusBarController: StatusBarController?

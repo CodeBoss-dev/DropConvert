@@ -2,7 +2,7 @@ import Foundation
 import CryptoKit
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "LibreOfficeInstaller")
+private let log = Logger(subsystem: "com.dropconvert", category: "LibreOfficeInstaller")
 
 /// Errors produced by the on-demand LibreOffice installer.
 enum LibreOfficeInstallError: Error, LocalizedError {
@@ -43,7 +43,7 @@ enum LibreOfficeInstallError: Error, LocalizedError {
 }
 
 /// Manages the on-demand download/extraction of the bundled LibreOffice engine into
-/// `~/Library/Application Support/ConverterApp/LibreOffice/`. Keeping the engine outside
+/// `~/Library/Application Support/DropConvert/LibreOffice/`. Keeping the engine outside
 /// the .app bundle lets us ship a ~50MB installer while still running fully offline once
 /// the user has converted at least once.
 enum LibreOfficeInstaller {
@@ -56,7 +56,7 @@ enum LibreOfficeInstaller {
     /// HTTPS URL of the engine tarball. Replace with the production CDN URL (Cloudflare R2
     /// or GitHub Releases) once hosting is set up. `file://` URLs are accepted for local
     /// testing — see `make engine-tarball`.
-    static let downloadURL = URL(string: "https://github.com/CodeBoss-dev/ConverterApp/releases/download/v1.1.3/LibreOffice-26.2.3-aarch64.tar.gz")!
+    static let downloadURL = URL(string: "https://github.com/CodeBoss-dev/DropConvert/releases/download/v1.3.0/LibreOffice-26.2.3-aarch64.tar.gz")!
 
     /// SHA-256 of the tarball (hex, lowercase). Compute with:
     ///   `shasum -a 256 LibreOffice-26.2.3-aarch64.tar.gz`
@@ -64,24 +64,24 @@ enum LibreOfficeInstaller {
 
     // MARK: - Paths
 
-    /// `~/Library/Application Support/ConverterApp/`
+    /// `~/Library/Application Support/DropConvert/`
     static var applicationSupportDir: URL {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support")
-        return base.appendingPathComponent("ConverterApp", isDirectory: true)
+        return base.appendingPathComponent("DropConvert", isDirectory: true)
     }
 
-    /// `…/ConverterApp/LibreOffice/`
+    /// `…/DropConvert/LibreOffice/`
     static var engineDir: URL {
         applicationSupportDir.appendingPathComponent("LibreOffice", isDirectory: true)
     }
 
-    /// `…/ConverterApp/LibreOffice/MacOS/soffice`
+    /// `…/DropConvert/LibreOffice/MacOS/soffice`
     static var installedSofficePath: URL {
         engineDir.appendingPathComponent("MacOS").appendingPathComponent("soffice")
     }
 
-    /// `…/ConverterApp/LibreOffice/version.txt` — installation marker.
+    /// `…/DropConvert/LibreOffice/version.txt` — installation marker.
     static var versionMarker: URL {
         engineDir.appendingPathComponent("version.txt")
     }

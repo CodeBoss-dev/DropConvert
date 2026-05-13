@@ -8,7 +8,7 @@ enum OfficeConverter {
     /// Converts `input` to the given office target, writing to `outputURL`.
     static func convert(input: URL, target: OfficeTarget, outputURL: URL) async throws -> URL {
         let tmpDir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("ConverterApp-\(UUID().uuidString)")
+            .appendingPathComponent("DropConvert-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: tmpDir, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: tmpDir) }
 

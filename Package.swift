@@ -2,11 +2,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "ConverterApp",
+    name: "DropConvert",
     platforms: [.macOS(.v13)],
     targets: [
         .executableTarget(
-            name: "ConverterApp",
+            name: "DropConvert",
             path: "Sources",
             exclude: ["Resources/Info.plist"],
             linkerSettings: [

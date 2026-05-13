@@ -2,7 +2,7 @@ import Carbon
 import AppKit
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "HotkeyManager")
+private let log = Logger(subsystem: "com.dropconvert", category: "HotkeyManager")
 
 /// Registers a global Cmd+Shift+C hotkey via Carbon and forwards triggers to a handler.
 ///

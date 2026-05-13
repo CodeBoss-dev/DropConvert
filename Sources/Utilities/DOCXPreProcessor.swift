@@ -1,7 +1,7 @@
 import Foundation
 import os
 
-private let log = Logger(subsystem: "com.converterapp", category: "DOCXPreProcessor")
+private let log = Logger(subsystem: "com.dropconvert", category: "DOCXPreProcessor")
 
 /// Rewrites a DOCX in place so any table wider than the page text area is
 /// marked as 100% page width. This mirrors what Word does at render time
@@ -18,7 +18,7 @@ enum DOCXPreProcessor {
     /// URL unchanged.
     static func shrinkOverflowingTables(input: URL) throws -> URL {
         let unzipDir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("ConverterApp-docx-\(UUID().uuidString)")
+            .appendingPathComponent("DropConvert-docx-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: unzipDir, withIntermediateDirectories: true)
 
         try runProcess(
@@ -45,7 +45,7 @@ enum DOCXPreProcessor {
         try rewritten.write(to: documentXML)
 
         let outputURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent("ConverterApp-docx-fit-\(UUID().uuidString).docx")
+            .appendingPathComponent("DropConvert-docx-fit-\(UUID().uuidString).docx")
         try? FileManager.default.removeItem(at: outputURL)
 
         // Re-zip from inside unzipDir so paths are stored relative (no leading

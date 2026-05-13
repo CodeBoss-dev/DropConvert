@@ -180,6 +180,14 @@ final class StatusBarController {
         howToItem.target = self
         menu.addItem(howToItem)
 
+        let updatesItem = NSMenuItem(
+            title: "Check for Updates…",
+            action: #selector(checkForUpdates),
+            keyEquivalent: ""
+        )
+        updatesItem.target = self
+        menu.addItem(updatesItem)
+
         menu.addItem(.separator())
 
         let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -208,6 +216,14 @@ final class StatusBarController {
 
     @objc private func showWelcomeWindow() {
         welcomeController.show()
+    }
+
+    /// Opens the GitHub Releases page so the user can compare their installed version
+    /// against the latest. A lightweight stand-in for Sparkle until notarization is in
+    /// place — see CLAUDE.md "Out of scope" for the full reasoning.
+    @objc private func checkForUpdates() {
+        guard let url = URL(string: "https://github.com/CodeBoss-dev/ConverterApp/releases/latest") else { return }
+        NSWorkspace.shared.open(url)
     }
 
     @objc private func openAcknowledgments() {

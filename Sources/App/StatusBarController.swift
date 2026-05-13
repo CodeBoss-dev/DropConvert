@@ -53,13 +53,8 @@ final class StatusBarController {
     private func configure() {
         guard let button = statusItem.button else { return }
 
-        if let logo = NSImage(named: "AppIcon") {
-            logo.size = NSSize(width: 18, height: 18)
-            button.image = logo
-        } else {
-            button.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: "DropConvert")
-            button.image?.isTemplate = true
-        }
+        button.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: "DropConvert")
+        button.image?.isTemplate = true
         button.action = #selector(statusBarButtonClicked)
         button.target = self
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
@@ -144,13 +139,8 @@ final class StatusBarController {
         button.layer?.removeAnimation(forKey: "spinAnimation")
         animationTimer?.invalidate()
         animationTimer = nil
-        if let logo = NSImage(named: "AppIcon") {
-            logo.size = NSSize(width: 18, height: 18)
-            button.image = logo
-        } else {
-            button.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: "DropConvert")
-            button.image?.isTemplate = true
-        }
+        button.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: "DropConvert")
+        button.image?.isTemplate = true
     }
 
     // MARK: - Menu

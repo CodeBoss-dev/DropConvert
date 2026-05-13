@@ -22,12 +22,8 @@ LibreOffice */
 # Claude Code internal state
 .claude/
 
-# Internal docs — kept locally for Claude/dev reference, not for the public repo.
-# ACKNOWLEDGMENTS.md and README.md are excluded from this list:
-#   ACKNOWLEDGMENTS.md is required by LibreOffice's MPL license.
-#   README.md is the public-facing repo description.
-CLAUDE.md
-UPDATE.md
+# Internal docs
+.internal/
 
 # IDE / editor
 .vscode/

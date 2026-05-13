@@ -48,5 +48,4 @@ https://swift.org/LICENSE.txt
 
 ---
 
-*ConverterApp itself is a personal project by Waaridh Borpujari and is not affiliated
-with The Document Foundation or Apple Inc.*
+*ConverterApp is an independent open-source project and is not affiliated with The Document Foundation or Apple Inc.*

@@ -1,6 +1,6 @@
 # Acknowledgments
 
-ConverterApp uses the following open-source software and Apple system frameworks.
+DropConvert uses the following open-source software and Apple system frameworks.
 
 ---
 
@@ -10,7 +10,7 @@ Copyright © 2000–2024 The Document Foundation and contributors.
 
 Licensed under the **Mozilla Public License 2.0 (MPL-2.0)**.
 
-ConverterApp bundles a stripped copy of the LibreOffice headless engine to perform
+DropConvert bundles a stripped copy of the LibreOffice headless engine to perform
 PDF ↔ DOCX document conversion on-device. No modifications have been made to the
 LibreOffice source code.
 
@@ -48,4 +48,4 @@ https://swift.org/LICENSE.txt
 
 ---
 
-*ConverterApp is an independent open-source project and is not affiliated with The Document Foundation or Apple Inc.*
+*DropConvert is an independent open-source project and is not affiliated with The Document Foundation or Apple Inc.*

@@ -1,5 +1,7 @@
 # DropConvert
 
+If DropConvert saves you from uploading a document to an online converter, consider starring the repo — it helps others discover the project.
+
 **Convert files on your Mac. Locally. No documents ever leave your machine.**
 
 A native macOS menu bar app for converting between PDF, DOCX, PPTX, XLSX, ODF formats, and common images. Drag a file onto the menu bar icon — the converted file appears next to the original. No uploads, no cloud, no third-party servers.

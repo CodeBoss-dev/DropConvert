@@ -1,5 +1,7 @@
 # DropConvert
 
+https://github.com/user-attachments/assets/06a8dbf2-dff2-494e-8526-427084f37eff
+
 ⭐️ If DropConvert saves you from uploading a document to an online converter, consider starring the repo — it helps others discover the project. ⭐️
 
 **Convert files on your Mac. Locally. No documents ever leave your machine.**

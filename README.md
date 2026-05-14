@@ -27,6 +27,10 @@ Once approved, that copy of the app can open normally. The full source code is i
 
 For more detail on installation, network access, checksums, and updates, see [TRUST_AND_INSTALL.md](TRUST_AND_INSTALL.md).
 
+## Feedback
+
+If you try DropConvert and something breaks, please open a [GitHub issue](https://github.com/CodeBoss-dev/DropConvert/issues). Bug reports with the source format, target format, macOS version, and app version are especially helpful.
+
 ## License
 
 MIT for DropConvert itself. The bundled LibreOffice engine (downloaded on first launch) is licensed under the [Mozilla Public License 2.0](https://www.libreoffice.org/about-us/licenses/) — see [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md).
